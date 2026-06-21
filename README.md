@@ -69,15 +69,108 @@ post-hoc insights tab with an honest ML model card.
 
 ---
 
-## The data + the model (no hand-waving)
+## Machine Learning (the core of TraffiSense)
 
-- **8,057** cleaned incidents (Nov 2023 - Apr 2024), 21 corridors, 223 chronic
-  junction hotspots, timestamps normalised to IST.
-- **ML model:** RandomForest predicting **road-closure requirement** — a real,
-  imbalanced operational target (7.4% base rate). Honest holdout
-  **AUC 0.798**, average precision **0.32** (4x better than the base rate).
-  We deliberately avoided the trap target `priority` (it's a deterministic
-  corridor label, so it leaks).
+This is a machine-learning system end to end: a trained model, an
+evidence-grounded forecast engine, and an honest evaluation. No magic numbers.
+
+### 1. ML pipeline
+
+```mermaid
+flowchart LR
+    A[ASTraM CSV<br/>8,205 raw rows] --> B[Clean + geo-filter<br/>IST time normalise]
+    B --> C[Feature engineering<br/>cyclical time, corridor volume,<br/>cause one-hot, vehicle class]
+    C --> D[RandomForest<br/>200 trees, depth 12<br/>class-balanced]
+    D --> E[Stratified holdout<br/>+ 5-fold CV]
+    B --> F[Corridor / junction<br/>risk aggregates]
+    F --> G[Gravity demand model]
+    D --> H[Closure-risk propensity]
+    G --> I[Fused congestion forecast<br/>0.42*base + 0.43*event + 0.15*history]
+    H --> I
+    I --> J[Digital-twin sim,<br/>optimizer, assistant]
+```
+
+### 2. The target (and the leakage trap we avoided)
+
+We predict **"will this incident require a road closure?"** — a genuinely
+useful, **imbalanced** operational signal (**596 closures / 8,057 = 7.4%** base
+rate).
+
+Two naive targets were rejected *because they leak*:
+
+| Rejected target | Why it's a trap |
+|---|---|
+| `priority` (High/Low) | It's a **deterministic corridor label**, not incident severity. A model "scores" AUC 0.998 by memorising the corridor. Worthless. |
+| `closure_flag` as a feature | Literally the target in disguise. |
+
+Catching and removing leakage is the difference between a real model and a
+demo that lies. Our reported numbers are what the model *actually* generalises.
+
+### 3. Feature engineering (15 features)
+
+- **Cyclical time** — `hour_sin`, `hour_cos` so 23:00 and 00:00 are neighbours.
+- **`weekday`, `is_weekend`** — weekly demand rhythm.
+- **`corridor_volume`** — log-normalised incident volume per corridor
+  (volume only, deliberately **not** the risk score, to avoid leaking the
+  high-priority rate).
+- **`priority_high`, `heavy_vehicle`** — operational context.
+- **8 one-hot `cause` features** — breakdown, accident, water-logging,
+  tree-fall, pot-holes, construction, road-conditions, congestion.
+
+### 4. Results (real, reproducible: `python scripts/ml_metrics.py`)
+
+| Metric | Score |
+|---|---|
+| Holdout ROC-AUC | **0.798** |
+| Holdout Average Precision | **0.321** (vs 0.074 base rate -> **4.3x lift**) |
+| 5-fold CV ROC-AUC | **0.756 +/- 0.022** |
+| 5-fold CV Avg Precision | **0.267 +/- 0.031** |
+| Accuracy @ best-F1 | **0.92** |
+| Closure precision / recall / F1 | 0.47 / 0.38 / **0.42** |
+
+**Confusion matrix** (holdout = 1,612 incidents, threshold tuned for best F1):
+
+|              | pred: no closure | pred: closure |
+|--------------|:---:|:---:|
+| **true: no closure** | 1442 (TN) | 51 (FP) |
+| **true: closure**    | 74 (FN)   | 45 (TP) |
+
+**Top feature importances:**
+
+| Feature | Importance |
+|---|---|
+| corridor_volume | 0.172 |
+| hour_sin | 0.129 |
+| hour_cos | 0.126 |
+| cause = vehicle_breakdown | 0.113 |
+| cause = tree_fall | 0.112 |
+| weekday | 0.105 |
+
+Intuitive and defensible: *where* (corridor load) and *when* (time of day,
+day of week) dominate, and **tree-fall / construction causes** carry the
+highest closure risk per incident — exactly what a traffic controller would
+tell you.
+
+### 5. From model to decisions
+
+The trained closure-risk model feeds a transparent fusion that produces the
+per-corridor congestion forecast:
+
+```
+congestion = (0.42 * time_of_day_baseline
+            + 0.43 * event_demand_load          # gravity model, distance-decayed
+            + 0.15 * historical_incident_risk)   # real ASTraM density
+            * weather_multiplier
+```
+
+Every downstream output — the simulator's KPIs, the optimizer's deployments,
+the assistant's answers — traces back to this evidence chain. **Explainable by
+construction.**
+
+### Dataset at a glance
+
+**8,057** cleaned incidents (Nov 2023 - Apr 2024), 21 corridors, 223 chronic
+junction hotspots, timestamps normalised to IST (UTC+5:30).
 
 ---
 

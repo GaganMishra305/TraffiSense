@@ -13,6 +13,14 @@ diversions and emergency corridors.
 
 ## Demo walkthrough (live screenshots)
 
+### Pitch deck (for judges)
+
+An 11-slide, ~3-minute walkthrough deck lives at
+**[`docs/deck/index.html`](docs/deck/index.html)** — just double-click to open
+(arrow keys / space to navigate, `F` for fullscreen). Covers the problem,
+solution, the five features, the ML metrics + leakage analysis, the
+explainability chain, tech stack, and impact.
+
 ### 3-minute demo video (with AI voiceover + captions)
 
 A narrated walkthrough lives at **[`media/traffisense-demo.mp4`](media/traffisense-demo.mp4)**

@@ -13,6 +13,16 @@ diversions and emergency corridors.
 
 ## Demo walkthrough (live screenshots)
 
+### 3-minute demo video (with AI voiceover)
+
+A narrated 3:04 walkthrough lives at **[`media/traffisense-demo.mp4`](media/traffisense-demo.mp4)**
+(1080p, AI voiceover). Click the poster to play:
+
+[![Watch the demo](docs/screenshots/demo-02-forecast.png)](media/traffisense-demo.mp4)
+
+> Rebuild it anytime with `cd media && ./build_video.sh` (regenerates the
+> voiceover from `media/scene*.txt` and stitches it to the screenshots).
+
 **1. Command dashboard** — historical incident heatmap from 8,057 real ASTraM
 records, with the event builder on the left and live data badges up top.
 

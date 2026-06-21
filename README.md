@@ -11,6 +11,43 @@ diversions and emergency corridors.
 
 ---
 
+## Demo walkthrough (live screenshots)
+
+**1. Command dashboard** — historical incident heatmap from 8,057 real ASTraM
+records, with the event builder on the left and live data badges up top.
+
+![Command dashboard](docs/screenshots/demo-01-dashboard.png)
+
+**2. AI traffic-impact forecast** — one click drops the event, predicts
+corridor congestion (rings), scatters optimized resource markers, and explains
+every corridor card (vehicles, delay, ML closure risk).
+
+![Forecast](docs/screenshots/demo-02-forecast.png)
+
+**3. Resource deployment optimization** — officers, barricades, marshals and
+tow trucks allocated by marginal need, each with a plain-English rationale and
+expected queue relief.
+
+![Resource optimization](docs/screenshots/demo-03-resources.png)
+
+**4. Scenario comparison** — five strategies (no intervention, diversions,
+adaptive signals, full optimization, emergency mode) ranked on travel time,
+queue, emergency response and CO2.
+
+![Scenario comparison](docs/screenshots/demo-04-scenarios.png)
+
+**5. AI command assistant** — ask natural-language what-ifs; every answer is
+computed live from the simulation (no external LLM).
+
+![AI assistant](docs/screenshots/demo-05-assistant.png)
+
+**6. Insights + honest ML model card** — incidents-by-hour, top causes, and the
+RandomForest closure-risk model's real holdout metrics.
+
+![Insights](docs/screenshots/demo-06-insights.png)
+
+---
+
 ## What it does (the 5 deep features)
 
 1. **Event Intelligence** — pick a real Bengaluru venue (Chinnaswamy Stadium,

@@ -1,0 +1,4 @@
+Modern cities host huge events every week - cricket, concerts, rallies.
+But traffic control is still reactive: we respond only after the jam forms.
+TraffiSense.ai changes that: a predictive, simulation-driven command platform.
+Built on 8,000+ real Bengaluru ASTraM incidents, with MapMyIndia mapping.

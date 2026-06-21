@@ -1,0 +1,3 @@
+Resource deployment - officers, barricades, marshals, tow trucks - allocated by marginal need.
+Mekhri Circle, a chronic hotspot with 64 incidents, gets the most officers: ~19% queue reduction.
+Every recommendation ships with a plain-English rationale.

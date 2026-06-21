@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:05,904
+Modern cities host huge events every week - cricket, concerts, rallies.
+
+2
+00:00:05,954 --> 00:00:12,194
+But traffic control is still reactive: we respond only after the jam forms.
+
+3
+00:00:12,244 --> 00:00:18,736
+TraffiSense.ai changes that: a predictive, simulation-driven command platform.
+
+4
+00:00:18,786 --> 00:00:24,858
+Built on 8,000+ real Bengaluru ASTraM incidents, with MapMyIndia mapping.
+
+5
+00:00:24,908 --> 00:00:27,681
+Planning starts with an event.
+
+6
+00:00:27,731 --> 00:00:36,431
+Pick a real venue - M. Chinnaswamy Stadium - 40,000 attendance, 7 PM Saturday, clear weather.
+
+7
+00:00:36,481 --> 00:00:45,557
+One click predicts impact, simulates strategies, optimizes resources, and plans emergency routes.
+
+8
+00:00:45,607 --> 00:00:53,466
+Here's the forecast: predicted congestion blooms across the CBD corridors.
+
+9
+00:00:53,516 --> 00:01:04,048
+A gravity demand model fuses event load, historical incident density, and an ML closure-risk score.
+
+10
+00:01:04,098 --> 00:01:13,881
+Every corridor is explained: 1,300 vehicles, 61% saturation, 19 min delay, 40% closure risk.
+
+11
+00:01:13,931 --> 00:01:22,807
+Resource deployment - officers, barricades, marshals, tow trucks - allocated by marginal need.
+
+12
+00:01:22,857 --> 00:01:32,018
+Mekhri Circle, a chronic hotspot with 64 incidents, gets the most officers: ~19% queue reduction.
+
+13
+00:01:32,068 --> 00:01:37,526
+Every recommendation ships with a plain-English rationale.
+
+14
+00:01:37,576 --> 00:01:40,473
+Divert, retime signals, or both?
+
+15
+00:01:40,523 --> 00:01:49,315
+The scenario engine compares five strategies: travel time, queue, emergency response, emissions.
+
+16
+00:01:49,365 --> 00:01:58,341
+Full optimization delivers a 30% cut in average travel time - a digital twin to test plans safely.
+
+17
+00:01:58,391 --> 00:02:07,517
+Just ask. The command assistant answers natural-language what-ifs, live from the simulation.
+
+18
+00:02:07,567 --> 00:02:10,908
+What happens if heavy rain begins?
+
+19
+00:02:10,958 --> 00:02:20,582
+Worst corridor 61% to 100%, severe corridors 0 to 7, delay 15 to 59 min. Pre-position tow trucks.
+
+20
+00:02:20,632 --> 00:02:24,103
+Under the hood: real machine learning.
+
+21
+00:02:24,153 --> 00:02:33,738
+A RandomForest predicts road closures - an imbalanced 7% problem - with data leakage caught and removed.
+
+22
+00:02:33,788 --> 00:02:42,262
+Honest holdout AUC 0.80, a 4.3x lift over the base rate, and stable 5-fold cross-validation.
+
+23
+00:02:42,312 --> 00:02:50,508
+TraffiSense.ai - anticipate, test every plan, deploy with confidence. Proactive, at last.

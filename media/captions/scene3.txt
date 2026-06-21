@@ -1,0 +1,3 @@
+Here's the forecast: predicted congestion blooms across the CBD corridors.
+A gravity demand model fuses event load, historical incident density, and an ML closure-risk score.
+Every corridor is explained: 1,300 vehicles, 61% saturation, 19 min delay, 40% closure risk.

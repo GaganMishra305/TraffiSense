@@ -1,0 +1,4 @@
+Under the hood: real machine learning.
+A RandomForest predicts road closures - an imbalanced 7% problem - with data leakage caught and removed.
+Honest holdout AUC 0.80, a 4.3x lift over the base rate, and stable 5-fold cross-validation.
+TraffiSense.ai - anticipate, test every plan, deploy with confidence. Proactive, at last.

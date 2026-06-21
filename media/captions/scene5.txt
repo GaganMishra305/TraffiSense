@@ -1,0 +1,3 @@
+Divert, retime signals, or both?
+The scenario engine compares five strategies: travel time, queue, emergency response, emissions.
+Full optimization delivers a 30% cut in average travel time - a digital twin to test plans safely.

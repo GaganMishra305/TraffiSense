@@ -15,11 +15,13 @@ diversions and emergency corridors.
 
 ### Pitch deck (for judges)
 
-An 11-slide, ~3-minute walkthrough deck lives at
-**[`docs/deck/index.html`](docs/deck/index.html)** — just double-click to open
-(arrow keys / space to navigate, `F` for fullscreen). Covers the problem,
-solution, the five features, the ML metrics + leakage analysis, the
-explainability chain, tech stack, and impact.
+- **PowerPoint:** **[`docs/deck/TraffiSense.pptx`](docs/deck/TraffiSense.pptx)**
+  — 11-slide native `.pptx` (regenerate with `python scripts/make_pptx.py`).
+- **HTML version:** **[`docs/deck/index.html`](docs/deck/index.html)** — double-click
+  to open (arrow keys / space to navigate, `F` for fullscreen).
+
+Both cover the problem, solution, the five features, the ML metrics + leakage
+analysis, the explainability chain, tech stack, and impact — skimmable in ~3 min.
 
 ### 3-minute demo video (with AI voiceover + captions)
 

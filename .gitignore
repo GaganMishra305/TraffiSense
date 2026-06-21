@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.sqlite3
+*.db
+
+# Env / secrets
+.env
+
+# OS
+.DS_Store
+
+# Data exports
+*.log

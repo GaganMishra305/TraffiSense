@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TraffiSense.ai — Predictive Traffic Command</title>
+  <meta name="description" content="AI-powered, simulation-driven traffic decision support for large city events." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+        ink: '#0b1220', panel: '#111c30', panel2: '#16233c',
+        edge: '#243150', accent: '#22d3ee',
+        good: '#34d399', warn: '#fbbf24', bad: '#f87171', mid: '#fb923c'
+      }}}
+    }
+  </script>
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="bg-ink text-slate-200 antialiased">
+  <!-- Header -->
+  <header class="flex items-center justify-between px-5 py-3 border-b border-slate-700/60 bg-panel">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 grid place-items-center font-black text-ink">T</div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight">TraffiSense<span class="text-cyan-400">.ai</span></h1>
+        <p class="text-[11px] text-slate-400 -mt-0.5">Predictive Traffic Command · Bengaluru · ASTraM dataset</p>
+      </div>
+    </div>
+    <div id="data-badges" class="hidden md:flex items-center gap-2 text-xs"></div>
+  </header>
+
+  <!-- Main grid -->
+  <main class="grid grid-cols-12 gap-3 p-3 h-[calc(100vh-58px)]">
+    <!-- Left: Event builder -->
+    <section class="col-span-12 lg:col-span-3 bg-panel rounded-xl p-4 overflow-y-auto custom-scroll">
+      <h2 class="section-title">Event Intelligence</h2>
+      <label class="lbl">Venue</label>
+      <select id="venue" class="inp"></select>
+      <label class="lbl">Event name</label>
+      <input id="ev-name" class="inp" value="RCB vs CSK — IPL" />
+      <label class="lbl">Event type</label>
+      <select id="ev-type" class="inp">
+        <option value="sports">Sports</option>
+        <option value="concert">Concert</option>
+        <option value="rally">Political rally</option>
+        <option value="festival">Festival</option>
+        <option value="marathon">Marathon</option>
+        <option value="exhibition">Exhibition</option>
+      </select>
+      <label class="lbl flex justify-between">Attendance <span id="att-val" class="text-cyan-400 font-semibold"></span></label>
+      <input id="ev-att" type="range" min="2000" max="60000" step="1000" value="40000" class="w-full accent-cyan-400" />
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="lbl flex justify-between">Start hour <span id="hour-val" class="text-cyan-400"></span></label>
+          <input id="ev-hour" type="range" min="0" max="23" value="19" class="w-full accent-cyan-400" />
+        </div>
+        <div>
+          <label class="lbl">Day</label>
+          <select id="ev-day" class="inp">
+            <option value="0">Monday</option><option value="1">Tuesday</option>
+            <option value="2">Wednesday</option><option value="3">Thursday</option>
+            <option value="4">Friday</option><option value="5" selected>Saturday</option>
+            <option value="6">Sunday</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="lbl flex justify-between">Duration (h) <span id="dur-val" class="text-cyan-400"></span></label>
+          <input id="ev-dur" type="range" min="1" max="8" value="4" class="w-full accent-cyan-400" />
+        </div>
+        <div>
+          <label class="lbl">Weather</label>
+          <select id="ev-weather" class="inp"></select>
+        </div>
+      </div>
+      <button id="run-btn" class="btn-primary mt-4 w-full">Run Forecast &amp; Plan</button>
+      <p id="run-status" class="text-xs text-slate-400 mt-2 h-4"></p>
+
+      <h2 class="section-title mt-5">Map Layers</h2>
+      <div id="layer-toggles" class="space-y-1.5 text-sm"></div>
+    </section>
+
+    <!-- Center: Map + KPI strip -->
+    <section class="col-span-12 lg:col-span-6 flex flex-col gap-3">
+      <div class="relative flex-1 rounded-xl overflow-hidden border border-slate-700/60 min-h-[320px]">
+        <div id="map" class="absolute inset-0"></div>
+        <div id="map-mode" class="absolute top-2 right-2 z-[500] text-[10px] px-2 py-1 rounded bg-ink/80 border border-slate-600"></div>
+        <div id="map-legend" class="absolute bottom-2 left-2 z-[500] text-[10px] bg-ink/85 border border-slate-600 rounded px-2 py-1.5 space-y-1"></div>
+      </div>
+      <div id="kpi-strip" class="grid grid-cols-3 md:grid-cols-6 gap-2"></div>
+    </section>
+
+    <!-- Right: Tabbed insights -->
+    <section class="col-span-12 lg:col-span-3 bg-panel rounded-xl flex flex-col overflow-hidden">
+      <nav id="tabs" class="flex text-xs border-b border-slate-700/60 shrink-0"></nav>
+      <div id="tab-body" class="flex-1 overflow-y-auto custom-scroll p-4"></div>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
